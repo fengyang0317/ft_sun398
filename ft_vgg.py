@@ -274,6 +274,7 @@ def read_img(data_dir, subset, im_path, label):
   im_path = tf.string_join([data_dir, im_path])
   image = tf.read_file(im_path)
   image = tf.image.decode_image(image, 3)
+  image = tf.cond(tf.equal(tf.shape(tf.shape(image))[0], 3), lambda: image, lambda: image[0])
   image = vgg_preprocessing.preprocess_image(image, 224, 224, subset == 'train')
   return image, label
 
